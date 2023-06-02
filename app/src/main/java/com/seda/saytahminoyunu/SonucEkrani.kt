@@ -18,22 +18,23 @@ import androidx.compose.ui.unit.sp
 import com.seda.saytahminoyunu.ui.theme.SayıTahminOyunuTheme
 
 @Composable
-fun SonucEkrani() {
+fun SonucEkrani(sonuc:Boolean) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Kazandınız", fontSize = 36.sp)
-        Image(painter = painterResource(id = R.drawable.mutlu_resim), contentDescription ="" )
+        if(sonuc){
+
+            Text(text = "Kazandınız", fontSize = 36.sp)
+            Image(painter = painterResource(id = R.drawable.mutlu_resim), contentDescription ="" )
+        }else{
+
+            Text(text = "Kaybettiniz", fontSize = 36.sp)
+            Image(painter = painterResource(id = R.drawable.uzgun_resim), contentDescription ="" )
+        }
+
 
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun Grg1() {
-    SayıTahminOyunuTheme {
-      SonucEkrani()
-    }
-}

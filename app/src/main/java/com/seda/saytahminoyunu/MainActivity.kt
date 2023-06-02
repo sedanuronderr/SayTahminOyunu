@@ -14,12 +14,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.seda.saytahminoyunu.ui.theme.SayıTahminOyunuTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,15 +39,35 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Anasayfa()
+SayfaGecisleri()
                 }
             }
         }
     }
 }
-
 @Composable
-fun Anasayfa() {
+fun SayfaGecisleri(){
+val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "anasayfa"){
+        composable("anasayfa"){
+            Anasayfa(navController = navController)
+        }
+        composable("tahmin"){
+            TahminEkrani(navController = navController)
+        }
+        composable("sonuc_ekrani/{sonuc}", arguments = listOf(
+            navArgument("sonuc"){type = NavType.BoolType}
+        )){
+            val sonuc = it.arguments!!.getBoolean("sonuc")
+            SonucEkrani(sonuc = sonuc)
+        }
+    }
+
+
+
+}
+@Composable
+fun Anasayfa(navController: NavController) {
 Column(
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.SpaceEvenly,
@@ -49,6 +76,7 @@ Column(
     Text(text = "Tahmin Oyunu", fontSize = 36.sp)
     Image(painter = painterResource(id = R.drawable.zar), contentDescription ="" )
     Button(onClick = {
+                     navController.navigate("tahmin")
 
     },Modifier.size(250.dp,50.dp)) {
        Text(text = "Oyuna Başla")
@@ -61,6 +89,5 @@ Column(
 @Composable
 fun GreetingPreview() {
     SayıTahminOyunuTheme {
-        Anasayfa()
     }
 }
